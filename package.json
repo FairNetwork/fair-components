@@ -1,0 +1,35 @@
+{
+  "name": "fair-components",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build",
+    "lerna:version": "lerna version --no-push",
+    "lerna:build": "lerna run build",
+    "prepare": "husky install",
+    "upgrade:minor": "lerna exec -- ncu -u -t minor",
+    "upgrade": "lerna exec -- ncu -u",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "husky": "^9.1.7"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.4",
+    "@storybook/addon-essentials": "^8.5.0",
+    "@storybook/addon-interactions": "^8.5.0",
+    "@storybook/addon-onboarding": "^8.5.0",
+    "@storybook/addon-webpack5-compiler-swc": "^2.0.0",
+    "@storybook/blocks": "^8.5.0",
+    "@storybook/react": "^8.5.0",
+    "@storybook/react-webpack5": "^8.5.0",
+    "@storybook/test": "^8.5.0",
+    "babel-plugin-styled-components": "^2.1.4",
+    "lerna": "^8.1.9",
+    "prop-types": "^15.8.1",
+    "storybook": "^8.5.0"
+  }
+}
