@@ -39,10 +39,10 @@ export const decorators = [
         };
 
         useEffect(() => {
-            if (colorMode === 0) {
-                document.body.style.backgroundColor = '#121212';
-            } else {
+            if (colorMode === 1) {
                 document.body.style.backgroundColor = '#FFFFFF';
+            } else {
+                document.body.style.backgroundColor = '#121212';
             }
         }, [colorMode]);
 

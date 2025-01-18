@@ -5,6 +5,13 @@
   "workspaces": [
     "packages/*"
   ],
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "organize-imports-cli",
+      "prettier --write"
+    ],
+    "*.{css,html,json,md,scss}": "prettier --write"
+  },
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
