@@ -1,4 +1,5 @@
 import { dirname, join } from 'path';
+
 module.exports = {
     stories: ['../packages/**/*.stories.mdx', '../packages/**/*.stories.@(js|jsx|ts|tsx)'],
 
@@ -24,6 +25,24 @@ module.exports = {
             include: /node_modules/,
             test: /\.mjs$/,
             type: 'javascript/auto',
+        });
+
+        // Füge Unterstützung für TypeScript und JSX hinzu
+        config.module.rules.push({
+            test: /\.(ts|tsx|js|jsx)$/,
+            use: [
+                {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            '@babel/preset-env',
+                            '@babel/preset-react',
+                            '@babel/preset-typescript',
+                        ],
+                    },
+                },
+            ],
+            exclude: /node_modules/,
         });
 
         return config;

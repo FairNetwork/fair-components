@@ -1,5 +1,5 @@
 import { action as brokenAction } from '@storybook/addon-actions';
-import { BaseSyntheticEvent, useEffect } from 'react';
+import React, { BaseSyntheticEvent, useEffect } from 'react';
 import ColorSchemeProvider from '../packages/core/src/components/color-scheme-provider/ColorSchemeProvider';
 
 export const parameters = {

@@ -5,7 +5,16 @@
   "author": "Michael Gesenhues <michael.gesenhues@tobit.com>",
   "homepage": "https://github.com/FairNetwork/fair-components#readme",
   "license": "ISC",
-  "main": "lib/core.js",
+  "types": "lib/types/index.d.ts",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "require": "./lib/cjs/index.js",
+      "import": "./lib/esm/index.js"
+    }
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
