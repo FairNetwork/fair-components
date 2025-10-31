@@ -1,33 +1,43 @@
-import React, { FC, ReactNode, useEffect } from "react";
-import { ColorMode, Theme } from "./ColorSchemeProvider.types";
+import React, { FC, ReactNode, useMemo } from 'react';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { ColorMode, Colors, Theme } from './ColorSchemeProvider.types';
 
 export interface ColorSchemeProviderProps {
-    colorMode: ColorMode;
-    theme: Theme;
-    children: ReactNode;
+  colorMode: ColorMode;
+  theme: Theme;
+  children: ReactNode;
 }
 
-export const ColorSchemeProvider: FC<ColorSchemeProviderProps> = ({
-                                                                      children,
-                                                                      theme,
-                                                                      colorMode,
-                                                                  }) => {
-    useEffect(() => {
-        const root = document.documentElement;
+const GlobalThemeVariables = createGlobalStyle<{ $colors: Colors; $mode: ColorMode }>`
+  :root {
+    color-scheme: ${({ $mode }) => $mode};
+    ${({ $colors }) =>
+      Object.entries($colors)
+        .map(([token, value]) => `--${token}: ${value};`)
+        .join('\n')}
+  }
+`;
 
-        // Setze das Attribut für CSS-Selektoren (optional)
-        root.setAttribute("data-color-mode", colorMode);
+export const ColorSchemeProvider: FC<ColorSchemeProviderProps> = ({ children, theme, colorMode }) => {
+  const colors = theme[colorMode];
 
-        // Theme-Objekt in CSS-Variablen schreiben
-        const colors = theme[colorMode];
-        Object.entries(colors).forEach(([key, value]) => {
-            root.style.setProperty(`--${key}`, value);
-        });
-    }, [theme, colorMode]);
+  const themeValue = useMemo(
+    () => ({
+      colorMode,
+      colors,
+      theme,
+    }),
+    [colorMode, colors, theme],
+  );
 
-    return <div>{children}</div>;
+  return (
+    <ThemeProvider theme={themeValue}>
+      <GlobalThemeVariables $colors={colors} $mode={colorMode} />
+      {children}
+    </ThemeProvider>
+  );
 };
 
-ColorSchemeProvider.displayName = "ColorSchemeProvider";
+ColorSchemeProvider.displayName = 'ColorSchemeProvider';
 
-export default ColorSchemeProvider
+export default ColorSchemeProvider;

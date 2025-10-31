@@ -1,5 +1,5 @@
-import { css } from '@linaria/core';
-import { styled } from '@linaria/react';
+import { motion } from 'motion/react';
+import styled from 'styled-components';
 
 /* Root Wrapper */
 export const StyledInputRoot = styled.div`
@@ -135,36 +135,13 @@ export const StyledInputBorderOverlay = styled.svg`
   border-radius: inherit;
 `;
 
-export const borderAnimation = css`
-  @keyframes borderWave {
-    0% {
-      stroke-dasharray: 0 0.5 0 0.5;
-      stroke-dashoffset: 0.5;
-      opacity: 0.6;
-    }
-    60% {
-      stroke-dasharray: 0.5 0 0.5 0;
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
-    100% {
-      stroke-dasharray: 1 0 1 0;
-      opacity: 0;
-    }
-  }
-`;
-
-export const StyledInputBorderPath = styled.path`
+export const StyledInputBorderPath = styled(motion.path)`
   stroke-width: 2;
   fill: transparent;
   stroke: var(--border-anim-color, var(--accent-color, #0a84ff));
   stroke-linecap: round;
+  stroke-linejoin: round;
   opacity: 0;
   stroke-dasharray: 0 1;
   stroke-dashoffset: 0.5;
-
-  &[data-animate='true'] {
-    opacity: 1;
-    animation: borderWave 0.9s ease forwards;
-  }
 `;

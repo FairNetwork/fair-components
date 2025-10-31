@@ -1,6 +1,6 @@
 # fair-components
 
-A React 19 component library powered by Linaria and the Motion animation toolkit. The project is
+A React 19 component library powered by styled-components and the Motion animation toolkit. The project is
 maintained as a single npm package with full TypeScript support, tree-shakeable builds via `tsup`
 and a Storybook playground built on Vite.
 
@@ -21,9 +21,9 @@ npm install
 
 ## Styling and theming
 
-Styles are authored with [Linaria](https://linaria.dev/), enabling zero-runtime CSS extraction. The
-`D` wraps Linaria's `ThemeProvider` and exposes both React context and generated
-CSS variables, making it easy to access tokens from components and plain CSS alike.
+Styles are authored with [styled-components](https://styled-components.com/), leveraging its
+runtime theming. The `ColorSchemeProvider` wraps the styled-components `ThemeProvider` and exposes both React
+context and generated CSS variables, making it easy to access tokens from components and plain CSS alike.
 
 ## Animation
 
