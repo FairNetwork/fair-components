@@ -95,7 +95,6 @@ const App: React.FC = () => {
           <span>Dark Mode</span>
           <Toggle isOn={mode === 'dark'} onToggle={(isOn) => setMode(isOn ? 'dark' : 'light')} />
         </ThemeToggle>
-        <Section>
           <Row>
             <Button variant="primary">Primary Action</Button>
             <Button variant="secondary">Secondary</Button>
@@ -146,7 +145,6 @@ const App: React.FC = () => {
             </ContextMenuAnchor>
             <Button onClick={() => setPopupOpen(true)}>Open Popup</Button>
           </Row>
-        </Section>
         <Toolbar
           ariaLabel="Quick actions"
           actions={[

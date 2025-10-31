@@ -3,7 +3,7 @@ import React from 'react';
 import App from "../src/App";
 
 const meta: Meta<typeof App> = {
-    title: 'Foundation/ColorSchemeProvider',
+    title: 'Core/Badge',
     component: App,
     args: {
     },

@@ -1,4 +1,3 @@
-import linaria from '@linaria/vite';
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
@@ -24,12 +23,6 @@ const config: StorybookConfig = {
     },
     viteFinal: async (config, { configType }) => {
         config.plugins = config.plugins ?? [];
-        config.plugins.push(
-            linaria({
-                include: ['**/*.ts', '**/*.tsx'],
-                sourceMap: configType === 'DEVELOPMENT',
-            })
-        );
 
         return config;
     },
