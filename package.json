@@ -1,63 +1,58 @@
 {
   "name": "fair-components",
+  "version": "1.0.0",
   "private": true,
-  "main": "index.js",
-  "workspaces": [
-    "packages/*"
+  "type": "module",
+  "files": [
+    "dist"
   ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "lint": "eslint \"src/**/*.{ts,tsx}\" \"stories/**/*.{ts,tsx}\"",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --check \"**/*.{ts,tsx,js,json,md}\""
+  },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "organize-imports-cli",
+    "*.{ts,tsx,js,jsx}": [
       "prettier --write"
     ],
-    "*.{css,html,json,md,scss}": "prettier --write"
-  },
-  "scripts": {
-    "storybook": "storybook dev -p 6006",
-    "build:storybook": "storybook build",
-    "lerna:version": "lerna version --no-push",
-    "lerna:build": "lerna run build",
-    "prepare": "husky install",
-    "upgrade:minor": "lerna exec -- ncu -u -t minor",
-    "upgrade": "lerna exec -- ncu -u",
-    "build-storybook": "storybook build"
+    "*.{json,md,css,html}": "prettier --write"
   },
   "dependencies": {
-    "husky": "^9.1.7"
+    "@linaria/core": "^6.1.0",
+    "@linaria/react": "^6.1.0",
+    "motion": "^11.18.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.24.8",
-    "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.3",
-    "@babel/preset-react": "^7.24.7",
-    "@babel/preset-typescript": "^7.24.7",
-    "@chromatic-com/storybook": "^3.2.4",
-    "@storybook/addon-actions": "^8.5.0",
+    "@linaria/esbuild": "^6.1.0",
+    "@linaria/vite": "^6.1.0",
     "@storybook/addon-essentials": "^8.5.0",
     "@storybook/addon-interactions": "^8.5.0",
     "@storybook/addon-links": "^8.5.0",
-    "@storybook/addon-mdx-gfm": "^8.5.0",
-    "@storybook/addon-onboarding": "^8.5.0",
-    "@storybook/addon-webpack5-compiler-swc": "^2.0.0",
-    "@storybook/blocks": "^8.5.0",
     "@storybook/react": "^8.5.0",
-    "@storybook/react-webpack5": "^8.5.0",
+    "@storybook/react-vite": "^8.5.0",
     "@storybook/test": "^8.5.0",
-    "babel-loader": "^9.2.1",
-    "babel-plugin-styled-components": "^2.1.4",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
     "eslint": "^9.18.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-storybook": "^0.11.2",
-    "husky": "^9.1.7",
-    "lerna": "^8.1.9",
-    "organize-imports-cli": "^0.10.0",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.4.2",
-    "prop-types": "^15.8.1",
-    "react": "^18.3.1",
-    "react-docgen-typescript-loader": "^3.7.2",
-    "react-dom": "^18.3.1",
     "storybook": "^8.5.0",
-    "styled-components": "^6.1.14",
-    "ts-loader": "^9.5.2",
+    "tsup": "^8.3.5",
     "typescript": "^5.7.3"
   }
 }

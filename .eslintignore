@@ -1,1 +1,2 @@
-*.stories.tsx
+dist
+node_modules

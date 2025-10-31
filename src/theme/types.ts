@@ -1,11 +1,6 @@
 export enum ColorMode {
-    Dark,
-    Light,
-}
-
-export interface ColorScheme {
-    dark: ColorSettings;
-    light: ColorSettings;
+    Dark = 'dark',
+    Light = 'light',
 }
 
 export interface ColorSettings {
@@ -15,4 +10,9 @@ export interface ColorSettings {
     secondaryBackgroundColor: string;
     primaryTextColor: string;
     secondaryTextColor: string;
+}
+
+export interface ColorScheme {
+    light: ColorSettings;
+    dark: ColorSettings;
 }
