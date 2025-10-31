@@ -300,3 +300,6 @@ $RECYCLE.BIN/
 
 # Custom
 lib
+
+# Build outputs
+dist/

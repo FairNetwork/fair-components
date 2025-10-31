@@ -1,6 +1,6 @@
-import { CSSProperties, MouseEventHandler } from 'react';
+import React, { CSSProperties, MouseEventHandler } from 'react';
 
-interface IconProps {
+export interface IconProps {
     icon: string;
     size?: CSSProperties['fontSize'];
     color?: CSSProperties['color'];
@@ -8,7 +8,7 @@ interface IconProps {
     style?: CSSProperties;
 }
 
-const Icon = ({ icon, color, size, style, onClick }: IconProps) => {
+const Icon: React.FC<IconProps> = ({ icon, color, size, style, onClick }) => {
     return (
         <i
             className={icon}
@@ -16,9 +16,10 @@ const Icon = ({ icon, color, size, style, onClick }: IconProps) => {
                 ...style,
                 fontSize: size,
                 color,
-                cursor: typeof onClick === 'function' ? 'pointer' : 'default'
+                cursor: typeof onClick === 'function' ? 'pointer' : 'default',
             }}
-            onClick={onClick}></i>
+            onClick={onClick}
+        />
     );
 };
 
