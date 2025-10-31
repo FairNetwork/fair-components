@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { Card, ColorMode, ColorSchemeProvider, Section } from '../src';
+import { ColorMode, ColorSchemeProvider } from '../src';
 
-const colors = {
+const theme = {
     light: {
         primaryColor: '#006adc',
         secondaryColor: '#1f2937',
@@ -22,27 +22,21 @@ const colors = {
 };
 
 const meta: Meta<typeof ColorSchemeProvider> = {
-    title: 'Foundation/ColorSchemeProvider',
+    title: 'Foundation/D',
     component: ColorSchemeProvider,
     args: {
-        colors,
+        theme,
         colorMode: ColorMode.Light,
     },
     render: (args) => {
-        const palette = args.colorMode === ColorMode.Light ? args.colors.light : args.colors.dark;
 
         return (
             <ColorSchemeProvider {...args}>
-                <Section backgroundColor={palette.secondaryBackgroundColor} textColor={palette.primaryTextColor}>
                     <h2>Color Aware Layout</h2>
                     <p>
                         Components inside the provider automatically consume theme tokens via
                         Linaria&apos;s ThemeProvider and access generated CSS variables.
                     </p>
-                    <Card badgeText="Live" buttonText="Join" onButtonClick={() => undefined}>
-                        Create vibrant UI elements that respect the active color mode.
-                    </Card>
-                </Section>
             </ColorSchemeProvider>
         );
     },

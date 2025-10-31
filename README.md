@@ -22,7 +22,7 @@ npm install
 ## Styling and theming
 
 Styles are authored with [Linaria](https://linaria.dev/), enabling zero-runtime CSS extraction. The
-`ColorSchemeProvider` wraps Linaria's `ThemeProvider` and exposes both React context and generated
+`D` wraps Linaria's `ThemeProvider` and exposes both React context and generated
 CSS variables, making it easy to access tokens from components and plain CSS alike.
 
 ## Animation

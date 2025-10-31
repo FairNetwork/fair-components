@@ -1,23 +1,21 @@
 import type { Preview } from '@storybook/react';
 import React, { useEffect } from 'react';
-import { ColorMode, ColorSchemeProvider } from '../src';
+import { ColorMode, ColorSchemeProvider, Theme} from '../src';
 
-const colors = {
-    light: {
-        primaryColor: '#006adc',
-        secondaryColor: '#1f2937',
-        primaryBackgroundColor: '#ffffff',
-        secondaryBackgroundColor: '#f3f4f6',
-        primaryTextColor: '#111827',
-        secondaryTextColor: '#374151',
+export const theme: Theme = {
+    [ColorMode.Light]: {
+        background: "#ffffff",
+        primary: "#03DAC5",
+        secondary: "#1E1E1E",
+        accent: "#BB86FC",
+        text: "#000000",
     },
-    dark: {
-        primaryColor: '#4f46e5',
-        secondaryColor: '#f9fafb',
-        primaryBackgroundColor: '#111827',
-        secondaryBackgroundColor: '#1f2937',
-        primaryTextColor: '#f9fafb',
-        secondaryTextColor: '#e5e7eb',
+    [ColorMode.Dark]: {
+        background: "#121212",
+        primary: "#03DAC5",
+        secondary: "#1E1E1E",
+        accent: "#BB86FC",
+        text: "#E0E0E0",
     },
 };
 
@@ -44,15 +42,15 @@ const preview: Preview = {
     decorators: [
         (Story, context) => {
             const colorMode = context.globals.colorMode as ColorMode;
-            const palette = colors[colorMode];
+            const palette = theme[colorMode];
 
             useEffect(() => {
-                document.body.style.backgroundColor = palette.primaryBackgroundColor;
-                document.body.style.color = palette.primaryTextColor;
-            }, [palette.primaryBackgroundColor, palette.primaryTextColor]);
+                document.body.style.backgroundColor = palette.background;
+                document.body.style.color = palette.text;
+            }, [palette.background, palette.text]);
 
             return (
-                <ColorSchemeProvider colors={colors} colorMode={colorMode}>
+                <ColorSchemeProvider theme={theme} colorMode={colorMode}>
                     <div style={{ minHeight: '100vh', padding: 24 }}>
                         <Story />
                     </div>
