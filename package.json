@@ -25,15 +25,12 @@
     "*.{json,md,css,html}": "prettier --write"
   },
   "dependencies": {
-    "@linaria/core": "^6.3.0",
-    "@linaria/react": "^6.3.0",
     "motion": "^12.23.24",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "styled-components": "^6.1.15"
   },
   "devDependencies": {
-    "@linaria/esbuild": "^5.0.4",
-    "@linaria/vite": "^5.0.4",
     "@storybook/addon-essentials": "^8.6.14",
     "@storybook/addon-interactions": "^8.6.14",
     "@storybook/addon-links": "^10.0.2",

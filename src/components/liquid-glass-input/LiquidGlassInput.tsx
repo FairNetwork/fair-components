@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import React, {
   ChangeEvent,
   ForwardedRef,
@@ -9,8 +10,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { css } from '@linaria/core';
-import { styled } from '@linaria/react';
+import styled from 'styled-components';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 
 export type LiquidGlassInputProps = {
   placeholder?: string;
@@ -267,27 +268,7 @@ const BorderOverlay = styled.svg`
   z-index: 0;
 `;
 
-const borderAnimation = css`
-  @keyframes lgBorderWave {
-    0% {
-      stroke-dasharray: 0 0.5 0 0.5;
-      stroke-dashoffset: 0.5;
-      opacity: 0.6;
-    }
-    60% {
-      stroke-dasharray: 0.5 0 0.5 0;
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
-    100% {
-      stroke-dasharray: 1 0 1 0;
-      stroke-dashoffset: 0;
-      opacity: 0;
-    }
-  }
-`;
-
-const BorderPath = styled.path`
+const BorderPath = styled(motion.path)`
   stroke-width: 2;
   fill: transparent;
   stroke: var(--border-anim-color, var(--accent-color, #0a84ff));
@@ -297,18 +278,6 @@ const BorderPath = styled.path`
   stroke-dasharray: 0 1;
   stroke-dashoffset: 0.5;
   transform: translateZ(0);
-
-  &[data-animate='true'] {
-    opacity: 1;
-    animation: lgBorderWave 0.9s ease forwards;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none !important;
-    opacity: 1 !important;
-    stroke-dasharray: 1 0 1 0 !important;
-    stroke-dashoffset: 0 !important;
-  }
 `;
 
 const useThemeVariables = (accentColor?: string, danger?: boolean, warn?: boolean) => {
@@ -376,6 +345,7 @@ const LiquidGlassInput = React.forwardRef<LiquidGlassInputRef, LiquidGlassInputP
     const inputRef = useRef<HTMLInputElement>(null);
     const [focused, setFocused] = useState(false);
     const [animationKey, setAnimationKey] = useState(0);
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     const value = isControlled ? valueProp! : internalValue;
     const reachedMax = maxLength !== undefined && value.length >= maxLength;
@@ -387,7 +357,42 @@ const LiquidGlassInput = React.forwardRef<LiquidGlassInputRef, LiquidGlassInputP
 
     useEffect(() => {
       setAnimationKey((prev) => prev + 1);
-    }, [computedInvalid, computedWarning, focused]);
+    }, [computedInvalid, computedWarning, focused, prefersReducedMotion]);
+
+    const shouldAnimateBorder =
+      (computedInvalid || computedWarning || focused) && !disabled && !prefersReducedMotion;
+
+    const borderAnimation = useMemo(() => {
+      if (!shouldAnimateBorder) {
+        return {
+          initial: {
+            opacity: 0,
+            strokeDasharray: '0 1',
+            strokeDashoffset: 0.5,
+          },
+          animate: {
+            opacity: 0,
+            strokeDasharray: '0 1',
+            strokeDashoffset: 0.5,
+          },
+          transition: { duration: 0.2 },
+        } as const;
+      }
+
+      return {
+        initial: {
+          opacity: 0.6,
+          strokeDasharray: '0 0.5 0 0.5',
+          strokeDashoffset: 0.5,
+        },
+        animate: {
+          opacity: [0.6, 1, 0],
+          strokeDasharray: ['0 0.5 0 0.5', '0.5 0 0.5 0', '1 0 1 0'],
+          strokeDashoffset: [0.5, 0, 0],
+        },
+        transition: { duration: 0.9, ease: 'easeInOut' },
+      } as const;
+    }, [shouldAnimateBorder]);
 
     const variableStyle = useThemeVariables(accentColor, computedInvalid, computedWarning);
     const combinedStyle = useMemo<React.CSSProperties>(
@@ -470,13 +475,13 @@ const LiquidGlassInput = React.forwardRef<LiquidGlassInputRef, LiquidGlassInputP
           data-warning={computedWarning ? 'true' : undefined}
           data-disabled={disabled ? 'true' : undefined}
         >
-          <BorderOverlay viewBox="0 0 100 100" preserveAspectRatio="none" className={borderAnimation}>
+          <BorderOverlay viewBox="0 0 100 100" preserveAspectRatio="none">
             <BorderPath
               d="M5 20 Q5 5 20 5 L80 5 Q95 5 95 20 L95 80 Q95 95 80 95 L20 95 Q5 95 5 80 Z"
               vectorEffect="non-scaling-stroke"
               pathLength={1}
-              data-animate={(computedInvalid || computedWarning || focused) && !disabled ? 'true' : 'false'}
               key={animationKey}
+              {...borderAnimation}
             />
           </BorderOverlay>
           <InputFrame>

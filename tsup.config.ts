@@ -1,4 +1,3 @@
-import linaria from '@linaria/esbuild';
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
@@ -10,9 +9,4 @@ export default defineConfig({
     splitting: true,
     treeshake: true,
     target: 'es2020',
-    esbuildPlugins: [
-        linaria({
-            sourceMap: true,
-        }),
-    ],
 });

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { styled } from '@linaria/react'
+import styled from 'styled-components'
 import LiquidGlassInput, { iconLibrary, type LiquidGlassInputRef } from './components/liquid-glass-input'
 
 const Page = styled.div`

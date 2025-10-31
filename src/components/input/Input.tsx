@@ -18,8 +18,8 @@ import {
     StyledInputRightAction,
     StyledInputBorderOverlay,
     StyledInputBorderPath,
-    borderAnimation,
 } from './Input.styles';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 
 export type InputProps = {
     placeholder?: string;
@@ -73,6 +73,7 @@ const Input = React.forwardRef<InputRef, InputProps>(
         const inputRef = useRef<HTMLInputElement>(null);
         const [focused, setFocused] = useState(false);
         const [animationKey, setAnimationKey] = useState(0);
+        const prefersReducedMotion = usePrefersReducedMotion();
 
         const value = isControlled ? valueProp! : internalValue;
         const reachedMax = maxLength !== undefined && value.length >= maxLength;
@@ -85,6 +86,58 @@ const Input = React.forwardRef<InputRef, InputProps>(
         useEffect(() => {
             setAnimationKey((prev) => prev + 1);
         }, [computedInvalid, computedWarning, focused]);
+
+        const shellStyle = useMemo<React.CSSProperties>(() => {
+            const style: React.CSSProperties = {};
+
+            if (accentColor) {
+                style['--accent-color' as const] = accentColor;
+                style['--border-anim-color' as const] = accentColor;
+            }
+
+            if (computedInvalid) {
+                style['--border-anim-color' as const] = 'var(--color-invalid, #ff3b30)';
+            } else if (computedWarning) {
+                style['--border-anim-color' as const] = 'var(--color-warning, #ffd60a)';
+            }
+
+            return style;
+        }, [accentColor, computedInvalid, computedWarning]);
+
+        const shouldAnimateBorder =
+            (computedInvalid || computedWarning || focused) && !disabled && !prefersReducedMotion;
+
+        const borderAnimation = useMemo(() => {
+            if (!shouldAnimateBorder) {
+                return {
+                    initial: {
+                        opacity: 0,
+                        strokeDasharray: '0 1',
+                        strokeDashoffset: 0.5,
+                    },
+                    animate: {
+                        opacity: 0,
+                        strokeDasharray: '0 1',
+                        strokeDashoffset: 0.5,
+                    },
+                    transition: { duration: 0.2 },
+                } as const;
+            }
+
+            return {
+                initial: {
+                    opacity: 0.6,
+                    strokeDasharray: '0 0.5 0 0.5',
+                    strokeDashoffset: 0.5,
+                },
+                animate: {
+                    opacity: [0.6, 1, 0],
+                    strokeDasharray: ['0 0.5 0 0.5', '0.5 0 0.5 0', '1 0 1 0'],
+                    strokeDashoffset: [0.5, 0, 0],
+                },
+                transition: { duration: 0.9, ease: 'easeInOut' },
+            } as const;
+        }, [shouldAnimateBorder]);
 
         const handleChange = useCallback(
             (ev: ChangeEvent<HTMLInputElement>) => {
@@ -137,18 +190,15 @@ const Input = React.forwardRef<InputRef, InputProps>(
                     data-invalid={computedInvalid || undefined}
                     data-warning={computedWarning || undefined}
                     data-disabled={disabled || undefined}
+                    style={shellStyle}
                 >
-                    <StyledInputBorderOverlay
-                        viewBox="0 0 100 100"
-                        preserveAspectRatio="none"
-                        className={borderAnimation}
-                    >
+                    <StyledInputBorderOverlay viewBox="0 0 100 100" preserveAspectRatio="none">
                         <StyledInputBorderPath
                             d="M5 20 Q5 5 20 5 L80 5 Q95 5 95 20 L95 80 Q95 95 80 95 L20 95 Q5 95 5 80 Z"
                             vectorEffect="non-scaling-stroke"
                             pathLength={1}
-                            data-animate={(computedInvalid || computedWarning || focused) && !disabled ? 'true' : 'false'}
                             key={animationKey}
+                            {...borderAnimation}
                         />
                     </StyledInputBorderOverlay>
                     <StyledInputFrame>
