@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { ColorMode, ColorSchemeProvider } from '../src';
+import LiquidGlassInput from "@/components/liquid-glass-input";
+import Input from "@/components/input/Input";
 
 const theme = {
     light: {
@@ -37,6 +39,7 @@ const meta: Meta<typeof ColorSchemeProvider> = {
                         Components inside the provider automatically consume theme tokens via
                         Linaria&apos;s ThemeProvider and access generated CSS variables.
                     </p>
+                <Input/>
             </ColorSchemeProvider>
         );
     },
